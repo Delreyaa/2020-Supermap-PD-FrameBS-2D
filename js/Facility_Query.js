@@ -56,9 +56,13 @@ var newresultLayer = 'null';
 var allresultLayer = 'null';
 var editableLayerss;
 
-var map, url_map = "http://localhost:8090/iserver/services/map-EmergWS/rest/maps/EmergMap";     //地图地址
+var host = "http://localhost:8090"
+var map;
+url_map = host + "/iserver/services/map-EmergWS/rest/maps/EmergMap";     //地图地址
+url = host + "/iserver/services/data-EmergWS/rest/data";          //数据地址
+
 // 初始化地图信息
-//!!!地图要经过坐标转换！
+//!!!地图要经过投影转换
 var map = L.map('map', {        //地图窗口
     crs: L.CRS.EPSG4326,
     center: [30.61, 103.7],
@@ -73,8 +77,6 @@ L.supermap.tiledMapLayer(url_map).addTo(map);       //添加地图
 var editableLayers = new L.FeatureGroup();
 map.addLayer(editableLayers);
 $("#map").css("position", "sticky");
-// 监听绘制
-map.on(L.Draw.Event.CREATED, completed);
 
 // 地图浏览操作基本功能
 function Fullwidth() {   //全图
@@ -90,3 +92,38 @@ function narrow() {      //缩小
 function translation() { //平移
     map.panTo([30.61, 103.71]);
 }
+
+function hospitalRSearch() { //查询功能：选中某个医院，弹出医院的坐标和名称等属性信息
+    //设置数据集及目标对象范围（所有的医院）
+    var idsParam = new SuperMap.GetFeaturesByIDsParameters({
+        IDs: [1, 2, 3, 4, 5, 6],
+        datasetNames: ["EmergDS:Hospital_R"],
+    });
+
+    //执行查询并绑定弹窗
+    L.supermap.featureService(url).
+        getFeaturesByIDs(
+            idsParam,
+            function (serviceResult) {
+                //console.log(serviceResult);
+                resultLayer = L.geoJSON(serviceResult.result.features, {
+                    onEachFeature: function (feature, layer) {
+                        console.log(feature.geometry.coordinates[0][0]);
+
+
+                        var bounds = new SuperMap.Bounds(feature.geometry.coordinates[0][0]);
+                        var center_lonlat = bounds.getCenterLonLat();
+
+                        layer.bindPopup("<p align=\"center \">" + feature.properties.NAME + "</p>" + center_lonlat);
+                    }
+                }).addTo(map);
+            }
+        );
+}
+
+
+
+
+
+
+
