@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>GIS应急指挥系统</title>
+  <!--Iclient for Leaflet-->
+  <link rel="stylesheet" href="dist/leaflet/leaflet.css">
+  <script src="dist/leaflet/leaflet.js"></script>
+  <script src="dist/leaflet/iclient-leaflet.js"></script>
+  <!--BootStrap-->
+  <link rel='stylesheet' href='js/bs/css/bootstrap.css'>
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script src='js/bs/js/bootstrap.js'></script>
+</head>
+<style>
+  font-family:微软雅黑 * {
+    margin: 0;
+    padding: 0
+  }
+
+  #anniu button {
+    width: 100px;
+    height: 40px;
+  }
+
+  #btn {
+    width: 40px;
+    left: 350px;
+    height: 140px;
+    border: 0;
+    border-left: 1px solid rgb(23, 32, 43, 0.2);
+    background: #f8f8f8;
+    color: #000;
+    cursor: pointer;
+    margin-left: -3px;
+  }
+
+  .box {
+    float: left;
+    position: relative;
+    left: 0;
+    height: 81.5%;
+    width: 19%;
+    margin-left: 0;
+    display: block;
+    transition: margin-left 2s;
+    z-index: 100;
+    min-height: 682px;
+  }
+
+  #maindiv {
+    width: 100%;
+    height: 78%;
+    background: #f8f8f8;
+    margin: 0;
+    padding: 0;
+    min-width: 1770px;
+  }
+
+  body {
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    overflow: auto;
+  }
+</style>
+
+<body>
+  <div
+    style="width: 100%;height: 18.5%;background: #8cab6e;background-image: url('img/head_background.jpg');background-size: cover;background-repeat: no-repeat;background-position:center center;position: relative;min-width: 1770px;min-height: 154px;">
+  </div>
+  <aside class="box" id="test">
+    <div
+      style="width: 320px;height: 100%;background: #f8f8f8;position: absolute;box-shadow: 2px 0px 22px 3px rgba(115,115,115,0.2)">
+      <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+        <!-- 医院查询 -->
+        <div class="panel panel-default">
+          <div style="width: 10px;height: 50px;background: #8BA96E;float: left;display: none;" id="ldcxdiv"></div>
+          <div class="panel-heading" role="tab" id="headingOne">
+            <div class="panel-title" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+              aria-expanded="false" aria-controls="collapseOne" style="height: 30px;" id="ldcxclick">
+              <img src="img/Hospital.png" style="margin-left: 20px;float: left;width:30px;height:30px">
+              <a class="collapsed"
+                style="margin-left: 20px;font-size:17px;font-weight:bold;color: #666666;margin-top: 20px;text-decoration:none">医院查询</a>
+            </div>
+          </div>
+        </div>
+        <!-- 医院查询 -->
+
+        <!-- 毒气扩散区分析 -->
+        <div class="panel panel-default" style="margin:0;padding: 0;">
+          <div style="width: 10px;height: 50px;background: #8BA96E;float: left;display: none;" id="lddjdiv"></div>
+          <div class="panel-heading" role="tab" id="headingThree">
+            <div class="panel-title" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour"
+              aria-expanded="false" aria-controls="collapseFour" style="height: 30px;" id="lddjclick">
+              <img src="img/duqi.png" style="margin-left: 20px;float: left;width:30px;height:30px">
+              <a class="collapsed"
+                style="margin-left: 20px;font-weight:bold;font-size:17px;color: #666666;margin-top: 20px;text-decoration:none">毒气扩散区分析</a>
+            </div>
+          </div>
+        </div>
+        <!-- 毒气扩散区分析 -->
+
+        <!-- 最短救援路线 -->
+        <div class="panel panel-default" style="margin:0;padding: 0;">
+          <div style="width: 10px;height: 50px;background: #8BA96E;float: left;display: none;" id="xyljdiv"></div>
+          <div class="panel-heading" role="tab" id="headingThreethree">
+            <div class="panel-title" role="button" data-toggle="collapse" data-parent="#accordion"
+              href="#collapseFourthree" aria-expanded="false" aria-controls="collapseFourthree" style="height: 30px;"
+              id="xyljclick">
+              <img src="img/path.png" style="margin-left: 20px;float: left;width:30px;height:30px">
+              <a class="collapsed"
+                style="margin-left: 20px;font-weight:bold;font-size:17px;color: #666666;margin-top: 20px;text-decoration:none">最短救援路线</a>
+            </div>
+          </div>
+        </div>
+        <!-- 最短救援路线 -->
+
+      </div>
+
+    </div>
+    <!-- 左侧边栏控制 -->
+    <button id="btn"
+      style="background-image:url('img/按钮-花.png') ;background-repeat: no-repeat; background-position:center;border-style: none;outline:none;width: 75px;height: 560px;z-index: 20000;position:relative;margin-left: -32px;">
+    </button>
+  </aside>
+
+  <div id="maindiv">
+
+    <!-- 右边的按钮组 -->
+    <div style="width: 100px;height: 1508px;position: fixed;margin-left: 93.97083333%;margin-top: 30px;z-index: 200000">
+      <div class="btn-group-vertical" role="group" id="anniu"
+        style="box-shadow:2px 3px 5px 0px rgba(51,51,51,0.18);border-radius:5px;width: 45px;margin-left: 55px;">
+        <button type="button" class="btn btn-default"
+          style="background-image:url('img/全图.png') ;background-repeat: no-repeat; background-position:center;border-style: none;outline:none;"
+          onclick="Fullwidth()" data-toggle="tooltip" data-placement="left" title="全幅显示"></button>
+        <button type="button" class="btn btn-default"
+          style="background-image:url('img/放大.png') ;background-repeat: no-repeat; background-position:center;border-style: none;outline:none;"
+          onclick="enlarge()" data-toggle="tooltip" data-placement="left" title="放大"></button>
+        <button type="button" class="btn btn-default"
+          style="background-image:url('img/缩小.png') ;background-repeat: no-repeat; background-position:center;border-style: none;outline:none;"
+          onclick="narrow()" data-toggle="tooltip" data-placement="left" title="缩小"></button>
+        <button type="button" class="btn btn-default"
+          style="background-image:url('img/平移.png') ;background-repeat: no-repeat; background-position:center;border-style: none;outline:none;"
+          onclick="translation()" data-toggle="tooltip" data-placement="left" title="平移"></button>
+      </div>
+    </div>
+
+    <!-- 地图 -->
+    <div id="map" style="background: #f8f8f8;width: 81%;height: 100%;position:sticky;top: 0px;min-height: 664px;">
+      <div id="light"
+        style="width:450px;height: 300px;position: absolute;margin-top:472px;z-index: 200000;display: none; margin-left: 20px;">
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- 底部 -->
+  <div style="background: #f8f8f8;width:100%;height: 3.5%;min-width: 1770px;">
+    <span style="padding-top: 10px;display: block;text-align: center;">Copyright &copy; 2012-2020 SuperMap</span>
+  </div>
+
+
+</body>
+
+<!--User Defined JS-->
+<script src="js/Facility_Query.js"></script>
+
+</html>
