@@ -76,7 +76,7 @@
       <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
         <!-- 医院查询 -->
-        <div class="panel panel-default" onclick="hospitalRSearch()">
+        <div class="panel panel-default">
           <div style="width: 10px;height: 50px;background: #8BA96E;float: left;display: none;" id="ldcxdiv"></div>
           <div class="panel-heading" role="tab" id="headingOne">
             <div class="panel-title" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
@@ -86,39 +86,78 @@
                 style="margin-left: 20px;font-size:17px;font-weight:bold;color: #666666;margin-top: 20px;text-decoration:none">医院查询</a>
             </div>
           </div>
-        </div>
-        <!-- 医院查询 -->
 
-        <!-- 毒气扩散区分析 -->
-        <div class="panel panel-default" style="margin:0;padding: 0;">
-          <div style="width: 10px;height: 50px;background: #8BA96E;float: left;display: none;" id="lddjdiv"></div>
-          <div class="panel-heading" role="tab" id="headingThree">
-            <div class="panel-title" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour"
-              aria-expanded="false" aria-controls="collapseFour" style="height: 30px;" id="lddjclick">
-              <img src="img/duqi.png" style="margin-left: 20px;float: left;width:30px;height:30px">
-              <a class="collapsed"
-                style="margin-left: 20px;font-weight:bold;font-size:17px;color: #666666;margin-top: 20px;text-decoration:none">毒气扩散区分析</a>
+          <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body" style="padding-left:2rem;" id="querydiv">
+              <button class="btn btn-light" style="margin-left:5rem;" onclick="hospitalRSearch()">查询</button>
+              <button class="btn btn-light" style="margin-left:5rem;" onclick="hospitalRSearchRm()">清除</button>
             </div>
           </div>
-        </div>
-        <!-- 毒气扩散区分析 -->
 
-        <!-- 最短救援路线 -->
-        <div class="panel panel-default" style="margin:0;padding: 0;">
-          <div style="width: 10px;height: 50px;background: #8BA96E;float: left;display: none;" id="xyljdiv"></div>
-          <div class="panel-heading" role="tab" id="headingThreethree">
-            <div class="panel-title" role="button" data-toggle="collapse" data-parent="#accordion"
-              href="#collapseFourthree" aria-expanded="false" aria-controls="collapseFourthree" style="height: 30px;"
-              id="xyljclick">
-              <img src="img/path.png" style="margin-left: 20px;float: left;width:30px;height:30px">
-              <a class="collapsed"
-                style="margin-left: 20px;font-weight:bold;font-size:17px;color: #666666;margin-top: 20px;text-decoration:none">最短救援路线</a>
-            </div>
+        </div>
+      </div>
+      <!-- 医院查询 -->
+
+
+
+      <!-- 毒气扩散区分析 -->
+      <div class="panel panel-default" style="margin:0;padding: 0;">
+        <div style="width: 10px;height: 50px;background: #8BA96E;float: left;display: none;" id="lddjdiv"></div>
+        <div class="panel-heading" role="tab" id="headingThree">
+          <div class="panel-title" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"
+            aria-expanded="false" aria-controls="collapseTwo" style="height: 30px;" id="lddjclick">
+            <img src="img/duqi.png" style="margin-left: 20px;float: left;width:30px;height:30px">
+            <a class="collapsed"
+              style="margin-left: 20px;font-weight:bold;font-size:17px;color: #666666;margin-top: 20px;text-decoration:none">毒气扩散区分析</a>
           </div>
         </div>
-        <!-- 最短救援路线 -->
+        <!-- collapseTwo -->
+        <div id="collapseTwo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body" style="padding-left: 3rem;margin:0;">
+            <div class="btn-group-vertical">
+              <button type="button" class="btn btn-secondary" onclick="deadArea()">致死区域分析</button>
+              <button type="button" class="btn btn-secondary" onclick="severeArea()">重伤区域分析</button>
+              <button type="button" class="btn btn-secondary" onclick="minorArea()">轻伤区域分析</button>
+              <button type="button" class="btn btn-secondary" onclick="reactionArea()">吸入反应区域</button>
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" style="margin-left: 4rem;"
+              onclick="areaRm()">清除结果</button>
+
+          </div>
+        </div>
 
       </div>
+      <!-- 毒气扩散区分析 -->
+
+      <!-- 最短救援路线 -->
+      <div class="panel panel-default" style="margin:0;padding: 0;">
+        <div style="width: 10px;height: 50px;background: #8BA96E;float: left;display: none;" id="xyljdiv"></div>
+        <div class="panel-heading" role="tab" id="headingThreethree">
+          <div class="panel-title" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree"
+            href="#collapseFourthree" aria-expanded="false" aria-controls="collapseFourthree" style="height: 30px;"
+            id="xyljclick">
+            <img src="img/path.png" style="margin-left: 20px;float: left;width:30px;height:30px">
+            <a class="collapsed"
+              style="margin-left: 20px;font-weight:bold;font-size:17px;color: #666666;margin-top: 20px;text-decoration:none">最短救援路线</a>
+          </div>
+        </div>
+
+        <!-- collapseThree -->
+        <div id="collapseThree" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingThree">
+          <div class="panel-body" style="padding-left: 3rem;margin:0;">
+            <button type="button" class="btn btn-secondary btn-sm" style="margin-left: 3rem;"
+              onclick="pathAnalysis()">开始分析</button>
+
+            <button type="button" class="btn btn-secondary btn-sm" style="margin-left: 4rem;"
+              onclick="pathAnalysisRm()">清除结果</button>
+
+          </div>
+        </div>
+
+      </div>
+      <!-- 最短救援路线 -->
+
+    </div>
 
     </div>
     <!-- 左侧边栏控制 -->
@@ -168,5 +207,7 @@
 
 <!--User Defined JS-->
 <script src="js/Facility_Query.js"></script>
+<script src="js/path.js"></script>
+<script src="js/area.js"></script>
 
 </html>

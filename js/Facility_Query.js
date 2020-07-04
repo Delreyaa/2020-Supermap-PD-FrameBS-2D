@@ -93,7 +93,21 @@ function translation() { //平移
     map.panTo([30.61, 103.71]);
 }
 
-function hospitalRSearch() { //查询功能：选中某个医院，弹出医院的坐标和名称等属性信息
+
+
+let queryClickCount = false;    //医院查询状态
+var queryResultLayer;           //结果图层
+
+// 查询功能：选中某个医院，弹出医院的坐标和名称等属性信息
+function hospitalRSearch() {
+    queryClickCount = !queryClickCount; //改变查询状态
+
+    if (queryClickCount === false) {
+        //清除结果图层并返回
+        queryResultLayer.remove();
+        return;
+    }
+
     //设置数据集及目标对象范围（所有的医院）
     var idsParam = new SuperMap.GetFeaturesByIDsParameters({
         IDs: [1, 2, 3, 4, 5, 6],
@@ -104,9 +118,11 @@ function hospitalRSearch() { //查询功能：选中某个医院，弹出医院�
     L.supermap.featureService(url).
         getFeaturesByIDs(
             idsParam,
-            function (serviceResult) {
+            (serviceResult) => {
                 //console.log(serviceResult);
-                resultLayer = L.geoJSON(serviceResult.result.features, {
+                // console.log(this);
+
+                queryResultLayer = L.geoJSON(serviceResult.result.features, {
                     onEachFeature: function (feature, layer) {
                         console.log(feature.geometry.coordinates[0][0]);
 
@@ -121,8 +137,13 @@ function hospitalRSearch() { //查询功能：选中某个医院，弹出医院�
         );
 }
 
+function hospitalRSearchRm() {
+    queryResultLayer.remove();
+}
 
 
+//导出地图对象
+module.exports = { map };
 
 
 
