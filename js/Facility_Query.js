@@ -98,6 +98,46 @@ function translation() { //平移
 
 let queryClickCount = false;    //医院查询状态
 var queryResultLayer;           //结果图层
+var hospitalLatLons;                    //医院坐标
+
+//查询医院中心点坐标
+(getHospitalsLonLat = () => {
+
+    // 返回有所有医院坐标的Array对象
+
+    hospitalLatLons = new Array();
+
+    //设置数据集及目标对象范围（所有的医院）
+    let idsParam = new SuperMap.GetFeaturesByIDsParameters({
+        IDs: [1, 2, 3, 4, 5, 6],
+        datasetNames: ["EmergDS:Hospital"],
+    });
+
+    //执行查询
+    L.supermap.featureService(url).
+        getFeaturesByIDs(
+            idsParam,
+            (serviceResult) => {
+                //console.log(serviceResult);
+                // console.log(this);
+
+                L.geoJSON(serviceResult.result.features, {
+                    onEachFeature: function (feature, layer) {
+                        console.log("查询医院中心点坐标");
+                        console.log(feature);
+                        hospitalLatLons.push(
+                            {
+                                name: feature.properties.NAME,
+                                coordinate: feature.geometry.coordinates
+                            }
+                        )
+                    }
+                });
+            }
+        );
+
+})();
+
 
 // 查询功能：选中某个医院，弹出医院的坐标和名称等属性信息
 function hospitalRSearch() {
@@ -110,7 +150,7 @@ function hospitalRSearch() {
     }
 
     //设置数据集及目标对象范围（所有的医院）
-    var idsParam = new SuperMap.GetFeaturesByIDsParameters({
+    let idsParam = new SuperMap.GetFeaturesByIDsParameters({
         IDs: [1, 2, 3, 4, 5, 6],
         datasetNames: ["EmergDS:Hospital_R"],
     });
@@ -120,18 +160,23 @@ function hospitalRSearch() {
         getFeaturesByIDs(
             idsParam,
             (serviceResult) => {
-                //console.log(serviceResult);
-                // console.log(this);
-
                 queryResultLayer = L.geoJSON(serviceResult.result.features, {
-                    onEachFeature: function (feature, layer) {
-                        console.log(feature.geometry.coordinates[0][0]);
+                    onEachFeature: (feature, layer) => {
+                        console.log(feature);
 
+                        // 鼠标点击事件监听，点击时缩放至对象
+                        layer.on({
+                            click: (e) => {
+                                map.fitBounds(e.target.getBounds());
+                            }
+                        });
 
-                        var bounds = new SuperMap.Bounds(feature.geometry.coordinates[0][0]);
-                        var center_lonlat = bounds.getCenterLonLat();
-
-                        layer.bindPopup("<p align=\"center \">" + feature.properties.NAME + "</p>" + center_lonlat);
+                        // feature.properties.NAME
+                        for (i in hospitalLatLons) {
+                            if (hospitalLatLons[i]["name"] === feature.properties.NAME) {
+                                layer.bindPopup("<p align=\"center \">" + feature.properties.NAME + "</p>" + hospitalLatLons[i]["coordinate"].join(','));
+                            }
+                        }
                     }
                 }).addTo(map);
             }
