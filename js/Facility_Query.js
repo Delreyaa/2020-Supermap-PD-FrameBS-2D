@@ -17,6 +17,7 @@ var myGroupend = L.layerGroup();
 var kk, kkk;
 var carName = [];
 var bn = 0;
+
 $(function () {
     $("[data-toggle='tooltip']").tooltip();
 });
@@ -59,7 +60,7 @@ var editableLayerss;
 var host = "http://localhost:8090"
 var map;
 url_map = host + "/iserver/services/map-EmergWS/rest/maps/EmergMap";     //地图地址
-url = host + "/iserver/services/data-EmergWS/rest/data";          //数据地址
+url = host + "/iserver/services/data-EmergWS/rest/data";                 //数据地址
 
 // 初始化地图信息
 //!!!地图要经过投影转换
@@ -142,8 +143,7 @@ function hospitalRSearchRm() {
 }
 
 
-//导出地图对象
-module.exports = { map };
+
 
 
 
