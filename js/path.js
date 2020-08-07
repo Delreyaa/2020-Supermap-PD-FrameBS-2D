@@ -9,7 +9,7 @@ var url_na = "http://localhost:8090/iserver/services/transportationAnalyst-Emerg
 
 //自定义图标
 var myIcon = L.icon({
-    iconUrl: "../../dist/leaflet/images/marker-icon.png",
+    iconUrl: "dist\\leaflet\\images\\marker-icon.png",
     iconSize: [25, 25]
 });
 
